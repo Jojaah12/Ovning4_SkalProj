@@ -117,3 +117,4 @@ namespace SkalProj_Datastrukturer_Minne
     }
 }
 
+ 
