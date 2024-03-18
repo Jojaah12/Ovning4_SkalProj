@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace SkalProj_Datastrukturer_Minne
 {
@@ -8,6 +9,10 @@ namespace SkalProj_Datastrukturer_Minne
         /// The main method, vill handle the menues for the program
         /// </summary>
         /// <param name="args"></param>
+        /// 
+        static Stack<string> theStack = new Stack<string>();
+        static Queue<string> theQueue = new Queue<string>();
+        static List<string> theList = new List<string>();
         static void Main()
         {
 
@@ -62,6 +67,41 @@ namespace SkalProj_Datastrukturer_Minne
         /// </summary>
         static void ExamineList()
         {
+            while (true)
+            {
+                Console.WriteLine("Enter '+' to add an item or '-' to remove an item from the list (or '0' to return to the main menu):");
+                string input = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("Please enter valid input.");
+                    continue;
+                }
+
+                char nav = input[0];
+                string value = input.Substring(1).Trim(); // Trim whitespace from the value
+
+                switch (nav)
+                {
+                    case '+':
+                        theList.Add(value);
+                        Console.WriteLine($"Added '{value}' to the list.");
+                        break;
+                    case '-':
+                        if (theList.Remove(value))
+                            Console.WriteLine($"Removed '{value}' from the list.");
+                        else
+                            Console.WriteLine($"'{value}' not found in the list.");
+                        break;
+                    case '0':
+                        return; // Return to the main menu
+                    default:
+                        Console.WriteLine("Please use only '+' or '-' to add or remove items.");
+                        break;
+                }
+
+                Console.WriteLine($"List count: {theList.Count}, Capacity: {theList.Capacity}");
+            }
             /*
              * Loop this method untill the user inputs something to exit to main menue.
              * Create a switch statement with cases '+' and '-'
@@ -85,11 +125,48 @@ namespace SkalProj_Datastrukturer_Minne
         /// </summary>
         static void ExamineQueue()
         {
+
             /*
              * Loop this method untill the user inputs something to exit to main menue.
              * Create a switch with cases to enqueue items or dequeue items
              * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
             */
+
+            while (true)
+            {
+                Console.WriteLine("Enter '+' to enqueue an item, '-' to dequeue an item, or '0' to return to the main menu:");
+                string input = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("Please enter valid input.");
+                    continue;
+                }
+
+                char nav = input[0];
+                string value = input.Substring(1).Trim(); // Trim whitespace from the value
+
+                switch (nav)
+                {
+                    case '+':
+                        theQueue.Enqueue(value);
+                        Console.WriteLine($"Enqueued '{value}' to the queue.");
+                        break;
+                    case '-':
+                        if (theQueue.Count > 0)
+                            Console.WriteLine($"Dequeued '{theQueue.Dequeue()}' from the queue.");
+                        else
+                            Console.WriteLine("Queue is empty, cannot dequeue.");
+                        break;
+                    case '0':
+                        return; // Return to the main menu
+                    default:
+                        Console.WriteLine("Please use only '+' or '-' to enqueue or dequeue items.");
+                        break;
+                }
+
+                Console.WriteLine($"Queue count: {theQueue.Count}");
+            }
         }
 
         /// <summary>
@@ -102,6 +179,42 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to push or pop items
              * Make sure to look at the stack after pushing and and poping to see how it behaves
             */
+
+            while (true)
+            {
+                Console.WriteLine("Enter '+' to push an item, '-' to pop an item, or '0' to return to the main menu:");
+                string input = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("Please enter valid input.");
+                    continue;
+                }
+
+                char nav = input[0];
+                string value = input.Substring(1).Trim(); // Trim whitespace from the value
+
+                switch (nav)
+                {
+                    case '+':
+                        theStack.Push(value);
+                        Console.WriteLine($"Pushed '{value}' onto the stack.");
+                        break;
+                    case '-':
+                        if (theStack.Count > 0)
+                            Console.WriteLine($"Popped '{theStack.Pop()}' from the stack.");
+                        else
+                            Console.WriteLine("Stack is empty, cannot pop.");
+                        break;
+                    case '0':
+                        return; // Return to the main menu
+                    default:
+                        Console.WriteLine("Please use only '+' or '-' to push or pop items.");
+                        break;
+                }
+
+                Console.WriteLine($"Stack count: {theStack.Count}");
+            }
         }
 
         static void CheckParanthesis()
@@ -111,7 +224,47 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
+            Console.WriteLine("Enter a string containing parentheses to check:");
 
+            string input = Console.ReadLine();
+
+            if (IsValidParentheses(input))
+            {
+                Console.WriteLine("Parentheses are correctly matched.");
+            }
+            else
+            {
+                Console.WriteLine("Parentheses are not correctly matched.");
+            }
+
+        }
+        static bool IsValidParentheses(string s)
+        {
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char c in s)
+            {
+                if (c == '(' || c == '[' || c == '{')
+                {
+                    stack.Push(c);
+                }
+                else if (c == ')' || c == ']' || c == '}')
+                {
+                    if (stack.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    char top = stack.Pop();
+
+                    if ((c == ')' && top != '(') || (c == ']' && top != '[') || (c == '}' && top != '{'))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return stack.Count == 0;
         }
 
     }
