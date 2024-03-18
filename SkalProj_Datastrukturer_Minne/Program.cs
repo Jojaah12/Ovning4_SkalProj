@@ -65,6 +65,16 @@ namespace SkalProj_Datastrukturer_Minne
         /// <summary>
         /// Examines the datastructure List
         /// </summary>
+        /// 
+
+        //1. The list's capacity increases when the number of elements exceeds the current capacity of the underlying array.
+        //2. The capacity of the list doubles each time it needs to increase.
+        //3. The capacity doesn't increase at the same rate as elements are added because increasing the capacity every time
+        //an element is added would be inefficient in terms of memory management and performance.
+        //4. No, the capacity doesn't decrease when elements are removed from the list. It remains the same unless you
+        //explicitly call the TrimExcess() method to reduce the capacity.
+        //5.Custom arrays are advantageous when you require precise memory control or know the exact collection size
+        //upfront, avoiding dynamic resizing overhead and additional list functionalities.
         static void ExamineList()
         {
             while (true)
@@ -214,6 +224,32 @@ namespace SkalProj_Datastrukturer_Minne
                 }
 
                 Console.WriteLine($"Stack count: {theStack.Count}");
+            }
+        }
+
+        //1. Using a stack isn't smart for simulating a ICA queue because it serves
+        //the last person who joins first, contrary to the expected First In, First Out (FIFO) order
+
+        static void ReverseText()
+        {
+            Console.WriteLine("\nEnter a string to reverse:");
+
+            string input = Console.ReadLine();
+
+            Stack<char> charStack = new Stack<char>();
+
+            // Push each char onto the stack
+            foreach (char c in input)
+            {
+                charStack.Push(c);
+            }
+
+            // Pop each char from the stack to reverse the order
+            Console.WriteLine("\nReversed string:");
+
+            while (charStack.Count > 0)
+            {
+                Console.Write(charStack.Pop());
             }
         }
 
